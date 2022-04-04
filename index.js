@@ -19,20 +19,20 @@ class Rectangle {
         this.fillColor = fillColor
     }
 
-    get area() {
+    area() {
         return this.width * this.height
     }
 
-    get left() {
+    left() {
         return this.x
     }
-    get right() {
+    right() {
         return this.x + this.width
     }
-    get top() {
+    top() {
         return this.y
     }
-    get bottom() {
+    bottom() {
         return this.y + this.height
     }
 
@@ -49,19 +49,37 @@ class Rectangle {
     }
 }
 
+class Coqui extends Rectangle {
+    constructor(x=0, y=0, width=0, height=0, fillColor=''){
+        super(x,y,width,height,fillColor)
+    }
+    moveUp() {
+        this.y -= 50
+    }
+    //TODO NEED GRAVITY ///////////////////////////////
+    // moveDown() {
+    //     this.y += 50
+    // }
+    //TODO: Make this a random number????
+    moveLeft() {
+        this.x -= 30
+    }
+
+}
+
 // MALE COQUI /////////////////////////////////
 //let coquiMacho = new Image()
-const coquiMacho = new Rectangle(50,50,30,30,'brown')
+const coquiMacho = new Coqui(50,50,30,30,'brown')
 coquiMacho.draw();
 //FEMALE COQUI ///////////////////////////////
-const coquiHembra = new Rectangle(w-100,h-100, 30, 30, 'green')
+const coquiHembra = new Coqui(w-100,h-100, 30, 30, 'green')
 coquiHembra.draw();
 
 //Platforms///////////////////////////////////
 let platforms = [
 
-    new Rectangle(w/4,h/4,150,15,'red'),
-    new Rectangle(w/4+200,h/4+100,150,15,'red'),
-    new Rectangle(w/4+400,h/4+200,150,15,'red'),
+    new Rectangle(w/4-25,h/4,150,15,'red'),
+    new Rectangle(w/4+200-25,h/4+100,150,15,'red'),
+    new Rectangle(w/4+400-25,h/4+200,150,15,'red'),
 ]
 platforms.forEach(platform=>platform.draw())
