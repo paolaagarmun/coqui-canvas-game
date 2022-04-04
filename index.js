@@ -10,7 +10,7 @@ let h = canvas.height
 /// Reactangle class /////////////////
 
 class Rectangle {
-    constructor (x=0, y=0, width=0, height=0, fillColor='')
+    constructor (x, y, width, height, fillColor='')
     {
         this.x = Number(x);
         this.y = Number(y);
@@ -50,11 +50,11 @@ class Rectangle {
 }
 
 class Coqui extends Rectangle {
-    constructor(x=0, y=0, width=0, height=0, fillColor=''){
+    constructor(x, y, width, height, fillColor=''){
         super(x,y,width,height,fillColor)
     }
     moveUp() {
-        this.y -= 50
+        this.y -= 100
     }
     //TODO NEED GRAVITY ///////////////////////////////
     // moveDown() {
@@ -83,3 +83,50 @@ let platforms = [
     new Rectangle(w/4+400-25,h/4+200,150,15,'red'),
 ]
 platforms.forEach(platform=>platform.draw())
+
+//try event listener to make female coqui jump
+document.addEventListener('keydown', e => {
+    switch (e.code) {
+        case "Space": 
+            coquiHembra.moveUp();
+            console.log("jump!")
+            break;
+        case 'ArrowLeft':
+            coquiHembra.moveLeft();
+            console.log("moving left")
+            break; 
+    }
+})
+
+const animate = () => {
+    ctx.clearRect(0,0, w, h)
+    
+    coquiHembra.draw()
+    coquiMacho.draw();
+    let platforms = [
+
+        new Rectangle(w/4-25,h/4,150,15,'red'),
+        new Rectangle(w/4+200-25,h/4+100,150,15,'red'),
+        new Rectangle(w/4+400-25,h/4+200,150,15,'red'),
+    ]
+    platforms.forEach(platform=> {
+        platform.draw()
+        collisionDetection(coquiHembra, platform);
+    })
+ 
+    
+    window.requestAnimationFrame(animate)
+  }
+animate();
+
+
+function collisionDetection(coqui, platform) {
+    if (
+        coqui.x < platform.x + platform.width &&
+        coqui.x + coqui.width > platform.x &&
+        coqui.y < platform.y + platform.height &&
+        coqui.y + coqui.height > platform.y
+    ) {
+        console.log("COLLISION DETECTED")
+    }
+}
