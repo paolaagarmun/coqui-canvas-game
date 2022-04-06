@@ -3,9 +3,13 @@ class Coqui extends Rectangle {
       super(x, y, width, height, fillColor);
       this.speedX = 0;
       this.speedY = 0;
+      
     }
     move() {
       this.x += this.speedX;
       this.y += this.speedY;
+    }
+    gravity() {
+        this.y +=3
     }
   }

@@ -26,7 +26,7 @@ document.addEventListener("keydown", (e) => {
       coquiHembra.speedX -= 5;
       console.log("moving left");
       break;
-    case "ArrowRigth":
+    case "ArrowRight":
       coquiHembra.speedX += 5;
       console.log("moving left");
       break;
@@ -46,6 +46,8 @@ const animate = () => {
   coquiHembra.move();
   coquiHembra.draw();
   coquiMacho.draw();
+
+  coquiHembra.gravity();
   
   platforms = [
     new Rectangle(w / 4 - 25, h / 4, 150, 15, "red"),
@@ -57,17 +59,21 @@ const animate = () => {
     collisionDetection(coquiHembra, platform);
   });
 
+
+
   window.requestAnimationFrame(animate);
 };
 animate();
 
-function collisionDetection(coqui, platform) {
+function collisionDetection(player, object) {
   if (
-    coqui.x < platform.x + platform.width &&
-    coqui.x + coqui.width > platform.x &&
-    coqui.y < platform.y + platform.height &&
-    coqui.y + coqui.height > platform.y
+    player.x < object.x + object.width &&
+    player.x + player.width > object.x &&
+    player.y < object.y + object.height &&
+    player.y + player.height > object.y
   ) {
-    console.log("COLLISION DETECTED");
+    return true
+  } else {
+      return false
   }
 }
