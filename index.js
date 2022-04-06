@@ -56,7 +56,11 @@ const animate = () => {
   ];
   platforms.forEach((platform) => {
     platform.draw();
-    collisionDetection(coquiHembra, platform);
+    let didCollide = collisionDetection(coquiHembra, platform);
+    if(didCollide) {
+        coquiHembra.x = platform.x
+        coquiHembra.y = platform.y - coquiHembra.height
+    }
   });
 
 
