@@ -7,28 +7,22 @@ canvas.height = 550;
 let w = canvas.width;
 let h = canvas.height;
 
-// MALE COQUI /////////////////////////////////
-//let coquiMacho = new Image()
+
 const coquiMacho = new Coqui(50, 50, 30, 30, "brown");
-//FEMALE COQUI ///////////////////////////////
 const coquiHembra = new Coqui(w - 100, h - 100, 30, 30, "green");
 
 
-
-//try event listener to make female coqui jump
 document.addEventListener("keydown", (e) => {
   switch (e.code) {
-    case "Space":
-      coquiHembra.speedY -= 5;
-      console.log("jump!");
-      break;
     case "ArrowLeft":
-      coquiHembra.speedX -= 5;
-      console.log("moving left");
+      coquiHembra.speedX -= 10;
+      coquiHembra.speedY -= 5;
+      //console.log("moving left");
       break;
     case "ArrowRight":
       coquiHembra.speedX += 5;
-      console.log("moving left");
+      coquiHembra.speedY -= 5
+      //console.log("moving left");
       break;
   }
 });
@@ -40,14 +34,18 @@ document.addEventListener("keyup", (e) => {
 
 
 let platforms = [];
+let int
 const animate = () => {
+  int = window.requestAnimationFrame(animate);
   ctx.clearRect(0, 0, w, h);
 
-  coquiHembra.move();
+  
   coquiHembra.draw();
   coquiMacho.draw();
-
   coquiHembra.gravity();
+ 
+  coquiHembra.move();
+  
   
   platforms = [
     new Rectangle(w / 4 - 25, h / 4, 150, 15, "red"),
@@ -58,14 +56,19 @@ const animate = () => {
     platform.draw();
     let didCollide = collisionDetection(coquiHembra, platform);
     if(didCollide) {
-        coquiHembra.x = platform.x
+        // coquiHembra.x = platform.x
         coquiHembra.y = platform.y - coquiHembra.height
     }
   });
+  let didCollideWithCoquiMacho = collisionDetection(coquiHembra,coquiMacho);
+  if (didCollideWithCoquiMacho) {
+      coquiHembra.x = coquiMacho.x + coquiMacho.width
+      coquiHembra.y = coquiMacho.y
+      window.cancelAnimationFrame(int)
+  }
 
 
 
-  window.requestAnimationFrame(animate);
 };
 animate();
 
