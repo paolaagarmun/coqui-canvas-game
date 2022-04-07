@@ -1,4 +1,6 @@
 canvas {
     border: 1px solid black;
-    
+    background-image: url("/images/night-in-pr-sized3.png");
+    background-size: cover;
+    background-repeat: no-repeat;
 }
