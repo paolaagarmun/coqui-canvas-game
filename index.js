@@ -15,14 +15,12 @@ const coquiHembra = new Coqui(w - 100, h - 100, 30, 30, "green");
 document.addEventListener("keydown", (e) => {
   switch (e.code) {
     case "ArrowLeft":
-      coquiHembra.speedX -= 10;
+      coquiHembra.speedX -= 5;
       coquiHembra.speedY -= 5;
-      //console.log("moving left");
       break;
     case "ArrowRight":
       coquiHembra.speedX += 5;
-      coquiHembra.speedY -= 5
-      //console.log("moving left");
+      coquiHembra.speedY -= 5;
       break;
   }
 });
@@ -32,8 +30,19 @@ document.addEventListener("keyup", (e) => {
     coquiHembra.speedY = 0;
   });
 
-
+let ramaId =0;
 let platforms = [];
+function createPlatforms() {
+    platforms.push(new Ramas(ramaId));
+    ramaId++;
+}
+
+
+const startGame = () => {
+    setInterval(createPlatforms, 800);
+    animate();
+}
+
 let int
 const animate = () => {
   int = window.requestAnimationFrame(animate);
@@ -46,17 +55,10 @@ const animate = () => {
  
   coquiHembra.move();
   
-  
-  platforms = [
-    new Rectangle(w / 4 - 25, h / 4, 150, 15, "red"),
-    new Rectangle(w / 4 + 200 - 25, h / 4 + 100, 150, 15, "red"),
-    new Rectangle(w / 4 + 400 - 25, h / 4 + 200, 150, 15, "red"),
-  ];
   platforms.forEach((platform) => {
     platform.draw();
     let didCollide = collisionDetection(coquiHembra, platform);
     if(didCollide) {
-        // coquiHembra.x = platform.x
         coquiHembra.y = platform.y - coquiHembra.height
     }
   });
@@ -70,7 +72,6 @@ const animate = () => {
 
 
 };
-animate();
 
 function collisionDetection(player, object) {
   if (
@@ -84,3 +85,5 @@ function collisionDetection(player, object) {
       return false
   }
 }
+
+startGame();
